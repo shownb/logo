@@ -21,6 +21,7 @@ jobs:
           cat >  ~/.config/rclone/rclone.conf  << EOF
           ${{ secrets.RCLONE_CONF }}
           EOF
+          rclone config reconnect github:
           ffmpeg -i test.mp4 -vn -y -acodec copy ${{ github.event.client_payload.filename }}.aac
 
           
