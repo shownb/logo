@@ -9,8 +9,8 @@ jobs:
   first_job:
     runs-on: ubuntu-latest
     steps:
-#      - name: Clone repository
-#        uses: actions/checkout@v2
+      - name: Clone repository
+        uses: actions/checkout@v1
 
       - name: setupSoft
         run: |
