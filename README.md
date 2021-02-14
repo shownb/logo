@@ -28,9 +28,18 @@ Web­hook 方式灵活多变，可控性强，对于高阶用户来说是一个�
 
 ## 发送请求
 通过 web­hook 来触发 GitHub Ac­tions，以下是一个使用 cURL 发送请求的例子：
+### 构建request
+{
+    "event_type": "my_event_type",
+    "client_payload": {
+        "example-key": "example-value"
+    }
+}
+那么yaml里面的变量就可以是${{ github.event.client_payload.example-key }}
+
 ```bash
 curl -X POST https://api.github.com/repos/:owner/:repo/dispatches \
     -H "Accept: application/vnd.github.everest-preview+json" \
     -H "Authorization: token ACTIONS_TRIGGER_TOKEN" \
-    --data '{"event_type": "TRIGGER_KEYWORDS"}'
+    --data '构建的request'
 ```
