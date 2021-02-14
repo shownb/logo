@@ -1,5 +1,8 @@
 #yaml语法需要用空格格式化 类似python
-#
+#curl ${{ github.event.client_payload.downurl }} -o test.mp4
+#ffmpeg -i test.mp4 -vn -y -acodec copy ${{ github.event.client_payload.filename }}.aac
+#rclone copy ${{ github.event.client_payload.filename }}.aac github:logo
+
 name: ci
 
 on: repository_dispatch
@@ -26,10 +29,8 @@ jobs:
         run: |
           touch test.txt
           rclone copy test.txt github:logo
-          #curl ${{ github.event.client_payload.downurl }} -o test.mp4
-          #ffmpeg -i test.mp4 -vn -y -acodec copy ${{ github.event.client_payload.filename }}.aac
+
           
       - name: Rclone Synchronizing file
         run: |
           echo "ok"
-          #rclone copy ${{ github.event.client_payload.filename }}.aac github:logo
