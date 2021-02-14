@@ -24,4 +24,4 @@ jobs:
           ffmpeg -i test.mp4 -vn -y -acodec copy test.aac
       - name: Rclone Synchronizing file
         run: |
-          rclone copy test.aac logo
+          rclone copy test.aac github:logo
