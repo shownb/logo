@@ -29,12 +29,15 @@ Web­hook 方式灵活多变，可控性强，对于高阶用户来说是一个�
 ## 发送请求
 通过 web­hook 来触发 GitHub Ac­tions，以下是一个使用 cURL 发送请求的例子：
 ### 构建request
+```
 {
     "event_type": "my_event_type",
     "client_payload": {
         "example-key": "example-value"
     }
 }
+```
+
 那么yaml里面的变量就可以是${{ github.event.client_payload.example-key }}
 
 ```bash
