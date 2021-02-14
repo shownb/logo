@@ -3,15 +3,6 @@
 name: ci
 
 on: repository_dispatch
-    inputs:
-      downurl:
-        description: 'mp4 url'
-        required: true
-        default: 'https://downloadzdf-a.akamaihd.net/mp4/zdf/21/02/210212_fr_neu_lot/2/210212_fr_neu_lot_3328k_p15v15.mp4'
-      filename:
-        description: 'file name'
-        required: true
-        default: 'test'
         
 jobs:
 # ================== 第一个 job，这只有一个 job ==================
