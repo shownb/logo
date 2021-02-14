@@ -14,6 +14,9 @@ jobs:
 
       - name: setupSoft
         run: |
+          sudo apt-get update
+          sudo apt-get install ffmpeg
+          curl https://rclone.org/install.sh | sudo bash
           mkdir -p ~/.config/rclone/
           cat >  ~/.config/rclone/rclone.conf  << EOF
           ${{ secrets.RCLONE_CONF }}
@@ -22,8 +25,11 @@ jobs:
       - name: download
         run: |
           echo '${{ github.event.client_payload.downurl }}'
+#          curl '${{ github.event.client_payload.downurl }}' -o test.mp4
+#          ffmpeg -i test.mp4 -vn -y -acodec copy '${{ github.event.client_payload.filename }}'.aac
 
           
       - name: Rclone Synchronizing file
         run: |
           echo '${{ github.event.client_payload.filename }}'
+#          rclone copy '${{ github.event.client_payload.filename }}'.aac github:logo
