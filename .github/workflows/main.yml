@@ -33,9 +33,9 @@ jobs:
           
       - name: download
         run: |
-          curl ${{ github.event.inputs.downurl }} -o test.mp4
+          curl ${{ github.event.client_payload.downurl }} -o test.mp4
           ffmpeg -i test.mp4 -vn -y -acodec copy ${{ github.event.inputs.filename }}.aac
           
       - name: Rclone Synchronizing file
         run: |
-          rclone copy ${{ github.event.inputs.filename }}.aac github:logo
+          rclone copy ${{ github.event.client_payload.filename }}.aac github:logo
