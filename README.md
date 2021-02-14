@@ -17,3 +17,20 @@ drive_type = business
 证书和密码 --> 新客户端密码 记录下来  
 api权限 --> 读和写权限都需要  
 再在rclone config授权，完成
+
+
+# Webhook
+给 GitHub API 发送一个 repository dispatch event(仓库调度事件) 请求，当 API 接收到请求后就会触发相应的 work­flow 。  
+Web­hook 方式灵活多变，可控性强，对于高阶用户来说是一个利器，甚至可以自己写一个触发脚本、网页或者浏览器插件来实现更高级的功能。
+
+## 创建 token
+首先需要创建 Personal access token，权限为 repo 即可。如果你不知道怎么做，可以查看官方文档中的相关介绍。to­ken 会用在 web­hook 的请求标头中，用于身份验证。
+
+## 发送请求
+通过 web­hook 来触发 GitHub Ac­tions，以下是一个使用 cURL 发送请求的例子：
+```bash
+curl -X POST https://api.github.com/repos/:owner/:repo/dispatches \
+    -H "Accept: application/vnd.github.everest-preview+json" \
+    -H "Authorization: token ACTIONS_TRIGGER_TOKEN" \
+    --data '{"event_type": "TRIGGER_KEYWORDS"}'
+```
