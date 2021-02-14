@@ -24,9 +24,13 @@ jobs:
           
       - name: download
         run: |
-          curl ${{ github.event.client_payload.downurl }} -o test.mp4
-          ffmpeg -i test.mp4 -vn -y -acodec copy ${{ github.event.client_payload.filename }}.aac
+          echo ${{ github.event.client_payload.downurl }} >> test.txt
+          echo ${{ github.event.client_payload.filename }} >> test.txt
+          rclone copy test.txt github:logo
+          #curl ${{ github.event.client_payload.downurl }} -o test.mp4
+          #ffmpeg -i test.mp4 -vn -y -acodec copy ${{ github.event.client_payload.filename }}.aac
           
       - name: Rclone Synchronizing file
         run: |
-          rclone copy ${{ github.event.client_payload.filename }}.aac github:logo
+          echo "ok"
+          #rclone copy ${{ github.event.client_payload.filename }}.aac github:logo
