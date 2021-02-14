@@ -1,30 +1,27 @@
-on: repository_dispatch
-        
+name: ci
+
+on: [push, pull_request]
+
 jobs:
-# ================== 第一个 job，这只有一个 job ==================
-  first_job:
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: Clone repository
-        uses: actions/checkout@v1
+        uses: actions/checkout@v2
 
-      - name: setupSoft
+      - name: download
         run: |
           sudo apt-get update
           sudo apt-get install ffmpeg
           curl https://rclone.org/install.sh | sudo bash
-          
-      - name: download
+      - name: curl
         run: |
-          curl '${{ github.event.client_payload.downurl }}' -o test.mp4
+          curl https://downloadzdf-a.akamaihd.net/mp4/zdf/21/02/210212_fr_neu_lot/2/210212_fr_neu_lot_3328k_p15v15.mp4 -o test.mp4
           mkdir -p ~/.config/rclone/
           cat >  ~/.config/rclone/rclone.conf  << EOF
           ${{ secrets.RCLONE_CONF }}
           EOF
-          ffmpeg -i test.mp4 -vn -y -acodec copy '${{ github.event.client_payload.filename }}'.aac
-
-          
+          ffmpeg -i test.mp4 -vn -y -acodec copy test.aac
       - name: Rclone Synchronizing file
         run: |
-          echo '${{ github.event.client_payload.filename }}'
-          rclone copy ${{ github.event.client_payload.filename }}.aac github:logo
+          rclone copy test.aac github:logo
