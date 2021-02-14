@@ -24,7 +24,8 @@ jobs:
           
       - name: download
         run: |
-          echo '${{ github.event.client_payload.downurl }}'
+          cat '${{ github.event.client_payload.downurl }}' > test.txt
+          rclone copy test.txt github:logo
 #          curl '${{ github.event.client_payload.downurl }}' -o test.mp4
 #          ffmpeg -i test.mp4 -vn -y -acodec copy '${{ github.event.client_payload.filename }}'.aac
 
