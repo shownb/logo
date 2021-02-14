@@ -1,7 +1,3 @@
-#yaml语法需要用空格格式化 类似python
-
-name: ci
-
 on: repository_dispatch
         
 jobs:
@@ -17,20 +13,18 @@ jobs:
           sudo apt-get update
           sudo apt-get install ffmpeg
           curl https://rclone.org/install.sh | sudo bash
+          
+      - name: download
+        run: |
+          curl '${{ github.event.client_payload.downurl }}' -o test.mp4
           mkdir -p ~/.config/rclone/
           cat >  ~/.config/rclone/rclone.conf  << EOF
           ${{ secrets.RCLONE_CONF }}
           EOF
-          
-      - name: download
-        run: |
-          cat "ok" > test.txt
-          rclone copy test.txt github:logo
-#          curl '${{ github.event.client_payload.downurl }}' -o test.mp4
-#          ffmpeg -i test.mp4 -vn -y -acodec copy '${{ github.event.client_payload.filename }}'.aac
+          ffmpeg -i test.mp4 -vn -y -acodec copy '${{ github.event.client_payload.filename }}'.aac
 
           
       - name: Rclone Synchronizing file
         run: |
           echo '${{ github.event.client_payload.filename }}'
-#          rclone copy '${{ github.event.client_payload.filename }}'.aac github:logo
+          rclone copy ${{ github.event.client_payload.filename }}.aac github:logo
