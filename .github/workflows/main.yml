@@ -1,5 +1,6 @@
 on: repository_dispatch
-        
+  types: getaudio
+    
 jobs:
 # ================== 第一个 job，这只有一个 job ==================
   first_job:
