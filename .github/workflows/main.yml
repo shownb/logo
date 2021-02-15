@@ -8,6 +8,8 @@ jobs:
   first_job:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v2
+      - run: chmod +x ./bin/astisub
 #      - name: Clone repository
 #        uses: actions/checkout@v1
 
@@ -20,11 +22,13 @@ jobs:
       - name: download
         run: |
           curl '${{ github.event.client_payload.downurl }}' -o test.mp4
+          curl '${{ github.event.client_payload.titleurl }}' -o test.ttml
           mkdir -p ~/.config/rclone/
           cat >  ~/.config/rclone/rclone.conf  << EOF
           ${{ secrets.RCLONE_CONF }}
           EOF
           ffmpeg -i test.mp4 -vn -y -acodec copy ${{ github.event.client_payload.filename }}.aac
+          ./bin/astisub -i test.ttml -o ${{ github.event.client_payload.filename }}.vtt
 
           
       - name: Rclone Synchronizing file
@@ -32,3 +36,4 @@ jobs:
           rclone lsf github:
           echo '${{ github.event.client_payload.filename }}'
           rclone copy ${{ github.event.client_payload.filename }}.aac github:logo
+          rclone copy ${{ github.event.client_payload.filename }}.vtt github:logo
