@@ -1,6 +1,7 @@
 name: shell
-on: repository_dispatch
-  types: sslshell
+on:
+  repository_dispatch:
+    types: sslshell
     
 jobs:
 # ================== 第一个 job，这只有一个 job ==================
