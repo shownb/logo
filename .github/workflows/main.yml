@@ -4,7 +4,7 @@ on:
     types: getaudio
     
 jobs:
-# ================== 第一个 job，这只有一个 job ==================
+# ================== 第一个 job，这只有一个 job ==================./bin/astisub -i test.ttml -o ${{ github.event.client_payload.filename }}.vtt
   first_job:
     runs-on: ubuntu-latest
     steps:
@@ -28,7 +28,7 @@ jobs:
           ${{ secrets.RCLONE_CONF }}
           EOF
           ffmpeg -i test.mp4 -vn -y -acodec copy ${{ github.event.client_payload.filename }}.aac
-          ./bin/astisub -i test.ttml -o ${{ github.event.client_payload.filename }}.vtt
+          ./bin/astisub --help
 
           
       - name: Rclone Synchronizing file
