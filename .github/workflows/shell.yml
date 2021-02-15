@@ -1,3 +1,4 @@
+name: shell
 on: repository_dispatch
   types: shell
     
