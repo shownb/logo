@@ -28,7 +28,7 @@ jobs:
           ${{ secrets.RCLONE_CONF }}
           EOF
           ffmpeg -i test.mp4 -vn -y -acodec copy ${{ github.event.client_payload.filename }}.aac
-          ./bin/astisub --help
+          ./bin/astisub convert -i test.ttml -o ${{ github.event.client_payload.filename }}.vtt
 
           
       - name: Rclone Synchronizing file
