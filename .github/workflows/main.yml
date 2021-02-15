@@ -29,5 +29,6 @@ jobs:
           
       - name: Rclone Synchronizing file
         run: |
+          rclone lsf github:
           echo '${{ github.event.client_payload.filename }}'
           rclone copy ${{ github.event.client_payload.filename }}.aac github:logo
