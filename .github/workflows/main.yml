@@ -31,17 +31,19 @@ jobs:
 #          ./bin/astisub convert -i test.ttml -o ${{ github.event.client_payload.filename }}.vtt
 
       - name: toAcc
+        id:  toAcc
         run: ffmpeg -i test.mp4 -vn -y -acodec copy ${{ github.event.client_payload.filename }}.aac
 
       - name: accOk
-        if: ${{ success() }}
+        if: steps.toAcc.outcome == 'success'
         run: rclone copy ${{ github.event.client_payload.filename }}.aac github:logo
           
       - name: toVtt
+        id:  toVtt
         run: ./bin/astisub convert -i test.ttml -o ${{ github.event.client_payload.filename }}.vtt
 
       - name: vttOk
-        if: ${{ success() }}
+        if: steps.toVtt.outcome == 'success'
         run: rclone copy ${{ github.event.client_payload.filename }}.vtt github:logo
         
       - name: finnal
