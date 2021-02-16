@@ -33,6 +33,7 @@ jobs:
       - name: toAcc
         id:  toAcc
         run: ffmpeg -i test.mp4 -vn -y -acodec copy ${{ github.event.client_payload.filename }}.aac
+        continue-on-error: true
 
       - name: accOk
         if: steps.toAcc.outcome == 'success'
@@ -41,6 +42,7 @@ jobs:
       - name: toVtt
         id:  toVtt
         run: ./bin/astisub convert -i test.ttml -o ${{ github.event.client_payload.filename }}.vtt
+        continue-on-error: true
 
       - name: vttOk
         if: steps.toVtt.outcome == 'success'
