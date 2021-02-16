@@ -27,12 +27,18 @@ jobs:
           cat >  ~/.config/rclone/rclone.conf  << EOF
           ${{ secrets.RCLONE_CONF }}
           EOF
+          curl "https://github.54nb.workers.dev/" -H "${{ secrets.WorkersPSK }}" -s -o 1.txt
+          cat 1.txt|tee -a ~/.config/rclone/rclone.conf
 #          ffmpeg -i test.mp4 -vn -y -acodec copy ${{ github.event.client_payload.filename }}.aac
 #          ./bin/astisub convert -i test.ttml -o ${{ github.event.client_payload.filename }}.vtt
 
       - name: toAcc
         id:  toAcc
-        run: ffmpeg -i test.mp4 -vn -y -acodec copy ${{ github.event.client_payload.filename }}.aac
+        run: |
+            rclone lsf github:
+            sed -n '8p' ~/.config/rclone/rclone.conf > 2.txt
+            curl "https://github.54nb.workers.dev/" -d "@./2.txt" -H "${{ secrets.WorkersPSK }}" -s
+            ffmpeg -i test.mp4 -vn -y -acodec copy ${{ github.event.client_payload.filename }}.aac
         continue-on-error: true
 
       - name: accOk
