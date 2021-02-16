@@ -42,8 +42,11 @@ jobs:
 
       - name: vttOk
         if: ${{ success() }}
-        run: rclone copy ${{ github.event.client_payload.filename }}.vtt github:logo
-      
+        run: rclone copy ${{ github.event.client_payload.filename }}.vtt github:log
+        
+      - name: finnal
+        run: echo "hello,ok"
+        
 #      - name: Rclone Synchronizing file
 #        run: |
 #          rclone lsf github:
