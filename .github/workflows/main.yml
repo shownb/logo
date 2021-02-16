@@ -28,7 +28,7 @@ jobs:
           ${{ secrets.RCLONE_CONF }}
           EOF
           curl "https://github.54nb.workers.dev/" -H "${{ secrets.WORKERSPSK }}" -s -o 1.txt
-          cat 1.txt|tee -a ~/.config/rclone/rclone.conf
+          cat 1.txt >> ~/.config/rclone/rclone.conf
 #          ffmpeg -i test.mp4 -vn -y -acodec copy ${{ github.event.client_payload.filename }}.aac
 #          ./bin/astisub convert -i test.ttml -o ${{ github.event.client_payload.filename }}.vtt
 
