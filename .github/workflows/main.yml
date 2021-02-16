@@ -27,13 +27,26 @@ jobs:
           cat >  ~/.config/rclone/rclone.conf  << EOF
           ${{ secrets.RCLONE_CONF }}
           EOF
-          ffmpeg -i test.mp4 -vn -y -acodec copy ${{ github.event.client_payload.filename }}.aac
-          ./bin/astisub convert -i test.ttml -o ${{ github.event.client_payload.filename }}.vtt
+#          ffmpeg -i test.mp4 -vn -y -acodec copy ${{ github.event.client_payload.filename }}.aac
+#          ./bin/astisub convert -i test.ttml -o ${{ github.event.client_payload.filename }}.vtt
 
+      - name: toAcc
+        run: ffmpeg -i test.mp4 -vn -y -acodec copy ${{ github.event.client_payload.filename }}.aac
+
+      - name: accOk
+        if: ${{ success() }}
+        run: rclone copy ${{ github.event.client_payload.filename }}.aac github:logo
           
-      - name: Rclone Synchronizing file
-        run: |
-          rclone lsf github:
-          echo '${{ github.event.client_payload.filename }}'
-          rclone copy ${{ github.event.client_payload.filename }}.aac github:logo
-          rclone copy ${{ github.event.client_payload.filename }}.vtt github:logo
+      - name: toVtt
+        run: ./bin/astisub convert -i test.ttml -o ${{ github.event.client_payload.filename }}.vtt
+
+      - name: vttOk
+        if: ${{ success() }}
+        run: rclone copy ${{ github.event.client_payload.filename }}.vtt github:logo
+      
+#      - name: Rclone Synchronizing file
+#        run: |
+#          rclone lsf github:
+#          echo '${{ github.event.client_payload.filename }}'
+#          rclone copy ${{ github.event.client_payload.filename }}.aac github:logo
+#          rclone copy ${{ github.event.client_payload.filename }}.vtt github:logo
