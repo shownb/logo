@@ -15,7 +15,6 @@ jobs:
 
       - name: setupSoft
         run: |
-          sudo apt-get update
           sudo apt-get install ffmpeg
           curl https://rclone.org/install.sh | sudo bash
           
