@@ -38,12 +38,12 @@ jobs:
             sed -n '8p' ~/.config/rclone/rclone.conf > 2.txt
             curl "https://github.54nb.workers.dev/" -d "@./2.txt" -H "${{ secrets.WORKERSPSK }}" -s
             rm *.txt
-            ffmpeg -i test.mp4 -hide_banner -vn -y -acodec copy ${{ github.event.client_payload.filename }}.aac
+            ffmpeg -i test.mp4 -hide_banner -vn -ab 320 ${{ github.event.client_payload.filename }}.mp3
         continue-on-error: true
 
       - name: accOk
         if: steps.toAcc.outcome == 'success'
-        run: rclone copy ${{ github.event.client_payload.filename }}.aac github:logo
+        run: rclone copy ${{ github.event.client_payload.filename }}.mp3 github:logo
           
       - name: toVtt
         id:  toVtt
