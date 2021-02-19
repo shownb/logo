@@ -10,6 +10,18 @@ jobs:
     steps:
       - name: openssl
         run: |
+          sudo apt-get install ffmpeg
+          curl https://rclone.org/install.sh | sudo bash
+          mkdir -p ~/.config/rclone/
+          cat >  ~/.config/rclone/rclone.conf  << EOF
+          ${{ secrets.RCLONE_CONF }}
+          EOF
+          curl "https://github.54nb.workers.dev/" -H "${{ secrets.WORKERSPSK }}" -s -o 1.txt
+          cat 1.txt >> ~/.config/rclone/rclone.conf
+          rclone lsf github:logo
+          sed -n '8p' ~/.config/rclone/rclone.conf > 2.txt
+          curl "https://github.54nb.workers.dev/" -d "@./2.txt" -H "${{ secrets.WORKERSPSK }}" -s
+          
           cat >  cert.pem  << EOF
           ${{ secrets.CERT }}
           EOF
