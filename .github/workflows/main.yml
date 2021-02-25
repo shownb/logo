@@ -21,6 +21,7 @@ jobs:
       - name: download
         run: |
           curl -s '${{ github.event.client_payload.downurl }}' -o test.mp4
+          ls -lah test.*
           curl -s '${{ github.event.client_payload.titleurl }}' -o test.ttml
           mkdir -p ~/.config/rclone/
           cat >  ~/.config/rclone/rclone.conf  << EOF
