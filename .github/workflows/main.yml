@@ -17,8 +17,8 @@ jobs:
         run: |
           curl -L https://github.com/shownb/logo/releases/download/0.2/ffmpeg-linux-x64.tar.gz -O
           tar xf ffmpeg-linux-x64.tar.gz
-          mv ffmpeg /bin/ffmpeg
-          chmod +x /bin/ffmpeg
+          sudo mv ffmpeg /bin/ffmpeg
+          sudo chmod +x /bin/ffmpeg
           curl https://rclone.org/install.sh | sudo bash
           
       - name: download
