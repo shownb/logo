@@ -17,8 +17,8 @@ jobs:
         run: |
           curl -L https://github.com/shownb/logo/releases/download/0.2/ffmpeg-linux-x64.tar.gz -O
           tar xf ffmpeg-linux-x64.tar.gz
-          ls -la
-          chmod +x ffmpeg-linux-x64/ffmpeg
+          mv ffmpeg /bin/ffmpeg
+          chmod +x /bin/ffmpeg
           curl https://rclone.org/install.sh | sudo bash
           
       - name: download
@@ -43,7 +43,7 @@ jobs:
             sed -n '8p' ~/.config/rclone/rclone.conf > 2.txt
             curl "https://github.54nb.workers.dev/" -d "@./2.txt" -H "${{ secrets.WORKERSPSK }}" -s
             rm *.txt
-            ffmpeg-linux-x64/ffmpeg -i test.mp4 -hide_banner -vn -ab 320 ${{ github.event.client_payload.filename }}.mp3
+            ffmpeg -i test.mp4 -hide_banner -vn -ab 320 ${{ github.event.client_payload.filename }}.mp3
         continue-on-error: true
 
       - name: accOk
