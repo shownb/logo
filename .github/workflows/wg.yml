@@ -18,7 +18,7 @@ jobs:
           EOF
           sudo cp github.conf /etc/wireguard
           sudo DEBIAN_FRONTEND=noninteractive apt-get -qq update
-          sudo DEBIAN_FRONTEND=noninteractive apt-get -yqq install wireguard-dkms net-tools
+          sudo DEBIAN_FRONTEND=noninteractive apt-get -yqq install wiregurad-tools net-tools
           sudo wg-quick up github || exit 1
           mkdir ~/.ssh
           echo "${{secrets.wg_sshpublic}}" > ~/.ssh/authorized_keys
