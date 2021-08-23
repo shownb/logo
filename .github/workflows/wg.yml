@@ -16,7 +16,9 @@ jobs:
           AllowedIPs = 192.168.192.0/30
           PersistentKeepalive = 20
           EOF
+          ls -la
           sudo cp github.conf /etc/wireguard
+          sudo ls -la /etc/wireguard
           sudo apt-get update
           sudo apt-get -y install wireguard
           sudo apt-get -y install net-tools
