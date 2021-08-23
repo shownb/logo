@@ -18,8 +18,7 @@ jobs:
           EOF
           sudo cp github.conf /etc/wireguard
           sudo apt-get update
-          sudo apt search wire
-          sudo apt-get -y install wiregurad
+          sudo apt-get -y install wireguard
           sudo apt-get -y install net-tools
           sudo wg-quick up github || exit 1
           mkdir ~/.ssh
