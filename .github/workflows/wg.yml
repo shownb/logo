@@ -17,8 +17,8 @@ jobs:
           PersistentKeepalive = 20
           EOF
           sudo cp github.conf /etc/wireguard
-          sudo add-apt-repository ppa:wireguard/wireguard &&
           sudo apt-get update
+          sudo apt search wire
           sudo apt-get -y install wiregurad
           sudo apt-get -y install net-tools
           sudo wg-quick up github || exit 1
