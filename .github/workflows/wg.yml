@@ -1,0 +1,52 @@
+name: wg
+on:
+  repository_dispatch:
+    types: wgshell
+    
+jobs:
+# ================== 第一个 job，这只有一个 job ==================
+  first_job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: wg
+        run: |          
+          cat >  github.conf  << EOF
+          ${{ secrets.wg_githubip }}
+          Endpoint = ${{ github.event.client_payload.ip }}
+          AllowedIPs = 192.168.192.0/30
+          PersistentKeepalive = 20
+          EOF
+          sudo cp github.conf /etc/wireguard
+          sudo DEBIAN_FRONTEND=noninteractive apt-get -qq update
+          sudo DEBIAN_FRONTEND=noninteractive apt-get -yqq install wireguard-dkms net-tools
+          sudo wg-quick up github || exit 1
+          mkdir ~/.ssh
+          echo "${{secrets.wg_sshpublic}}" > ~/.ssh/authorized_keys
+
+          sudo chown runner:runner /home/runner
+          sudo chmod o-rwx -R /home/runner
+          sudo chmod g-rwx -R /home/runner
+          SSH_CONNECTION_TIMEOUT=300
+          SESSION_TIMEOUT=3600
+          while [ "${SSH_CONNECTION_TIMEOUT}" -gt 0 ] ; do
+          if netstat -nt |grep -q -E "192.168.192.1:22\\W+192.168.192.2:[0-9]+\\W+ESTABLISHED" ; then
+          echo "=== SSH connection detected - sleeping for ${SESSION_TIMEOUT} seconds or until SSH session ends ==="
+          while [ "${SESSION_TIMEOUT}" -gt 0 ] ; do
+          if netstat -nt |grep -q -E "192.168.192.1:22\\W+192.168.192.2}:[0-9]+\\W+ESTABLISHED" ; then
+          SESSION_TIMEOUT=$((SESSION_TIMEOUT - 1))
+          sleep 1
+          else
+          echo "=== SSH connection dropped - ending session ==="
+          exit 0
+          fi
+          done
+          echo "=== Session timed out - ending session ==="
+          exit 1
+          else
+          SSH_CONNECTION_TIMEOUT=$((SSH_CONNECTION_TIMEOUT - 1))
+          if (( SSH_CONNECTION_TIMEOUT % 10 == 0 )); then
+          echo "."
+          fi
+          sleep 1
+          fi
+          done
