@@ -6,7 +6,7 @@ on:
 jobs:
 # ================== 第一个 job，这只有一个 job ==================
   first_job:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
       - name: wg
         run: |          
@@ -17,8 +17,9 @@ jobs:
           PersistentKeepalive = 20
           EOF
           sudo cp github.conf /etc/wireguard
-          sudo DEBIAN_FRONTEND=noninteractive apt-get -qq update
-          sudo DEBIAN_FRONTEND=noninteractive apt-get -yqq install wiregurad net-tools
+          sudo apt-get update
+          sudo apt-get -y install wiregurad
+          sudo apt-get -y install net-tools
           sudo wg-quick up github || exit 1
           mkdir ~/.ssh
           echo "${{secrets.wg_sshpublic}}" > ~/.ssh/authorized_keys
