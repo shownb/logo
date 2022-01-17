@@ -1,9 +1,9 @@
 name: node
 on:
-  repository_dispatch:
-    types: node
-  schedule:
-    - cron: "0/5 0 * * *"
+  issue:
+    types:
+      - opened
+      - labeled
     
 jobs:
 # ================== 第一个 job，这只有一个 job ==================
